@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: financetracker
+
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8080
