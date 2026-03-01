@@ -2,10 +2,6 @@ spring:
   application:
     name: financetracker
 
-    security:
-      jwt:
-        secret-key: 3f8b2c9d7e4a1f6b0c5d8e2a9b4f7c1d3e6a0b5c8f2d7e4a1b6c9d0e3f8b2c
-        expiration: 86400000
 
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/financetracker
@@ -29,3 +25,9 @@ spring:
 
 server:
   port: 8080
+
+application:
+  security:
+    jwt:
+      secret-key: 3f8b2c9d7e4a1f6b0c5d8e2a9b4f7c1d3e6a0b5c8f2d7e4a1b6c9d0e3f8b2c
+      expiration: 86400000
