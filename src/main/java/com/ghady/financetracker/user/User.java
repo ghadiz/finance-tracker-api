@@ -1,7 +1,7 @@
 package com.ghady.financetracker.user;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,6 +12,11 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")   // ← add this
+
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
