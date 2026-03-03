@@ -1,5 +1,6 @@
 package com.ghady.financetracker.account;
 
+import com.ghady.financetracker.exception.ResourceNotFoundException;
 import com.ghady.financetracker.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class AccountService {
     public AccountResponse getAccountById(User user, Long accountId){
         return accountRepository.findByIdAndUserId(accountId, user.getId())
                 .map(this::toResponse)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Account not found with id: " + accountId
                 ));
     }
@@ -51,7 +52,7 @@ public class AccountService {
     @Transactional
     public AccountResponse updateAccount(User user, Long accountId, UpdateAccountRequest request){
         Account account = accountRepository.findByIdAndUserId(accountId, user.getId())
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Account not found with id: " + accountId
                 ));
         account.setName(request.name());
@@ -61,7 +62,7 @@ public class AccountService {
     @Transactional
     public void deleteAccount(User user, Long accountId){
         if(!accountRepository.existsByIdAndUserId(accountId, user.getId())){
-            throw new RuntimeException("Account not found with id: " + accountId);
+            throw new ResourceNotFoundException("Account not found with id: " + accountId);
         }
         accountRepository.deleteById(accountId);
     }

@@ -1,5 +1,6 @@
 package com.ghady.financetracker.auth;
 
+import com.ghady.financetracker.exception.BadRequestException;
 import com.ghady.financetracker.user.User;
 import com.ghady.financetracker.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class AuthService {
 
     public AuthResponse register(AuthRequest request){
         if(userRepository.existsByEmail(request.email())){
-            throw new RuntimeException("Email already in use");
+            throw new BadRequestException("Email already in use");
         }
 
         User user = User.builder()
@@ -36,11 +37,11 @@ public class AuthService {
 
         // Load the user by email
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
 
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new BadRequestException("Invalid email or password");
         }
 
         // Credentials are valid — generate and return the token

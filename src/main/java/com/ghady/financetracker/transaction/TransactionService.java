@@ -2,6 +2,7 @@ package com.ghady.financetracker.transaction;
 
 import com.ghady.financetracker.account.Account;
 import com.ghady.financetracker.account.AccountRepository;
+import com.ghady.financetracker.exception.ResourceNotFoundException;
 import com.ghady.financetracker.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class TransactionService {
     public TransactionResponse createTransaction(User user, CreateTransactionRequest request){
         Account account = accountRepository
                 .findByIdAndUserId(request.accountId(), user.getId())
-                .orElseThrow(() -> new RuntimeException("Account not found with id : " +request.accountId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found with id : " +request.accountId()));
 
         Transaction transaction = Transaction.builder()
                 .account(account)
@@ -70,7 +71,7 @@ public class TransactionService {
 
     public List<TransactionResponse> getTransactions(User user, Long accountId){
         accountRepository.findByIdAndUserId(accountId, user.getId())
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Account not found with id: " + accountId
                 ));
 
@@ -85,7 +86,7 @@ public class TransactionService {
         return transactionRepository
                 .findByIdAndAccountUserId(transactionId, user.getId())
                 .map(this::toResponse)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Transaction not found with id: " + transactionId
                 ));
     }
@@ -94,7 +95,7 @@ public class TransactionService {
     public TransactionResponse updateTransaction(User user, Long transactionId, UpdateTransactionRequest request){
         Transaction transaction = transactionRepository
                 .findByIdAndAccountUserId(transactionId, user.getId())
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Transaction not found with id: " + transactionId
                 ));
 
@@ -120,7 +121,7 @@ public class TransactionService {
     public void deleteTransaction(User user, Long transactionId){
         Transaction transaction = transactionRepository
                 .findByIdAndAccountUserId(transactionId, user.getId())
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Transaction not found with id: " + transactionId
                 ));
 
