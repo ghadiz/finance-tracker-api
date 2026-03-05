@@ -2,24 +2,23 @@ spring:
   application:
     name: financetracker
 
-
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/financetracker}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/financetracker}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
     properties:
       hibernate:
         format_sql: true
     open-in-view: false
 
   flyway:
-    enabled: true
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
     locations: classpath:db/migration
     baseline-on-migrate: true
 
@@ -33,5 +32,5 @@ server:
 application:
   security:
     jwt:
-      secret-key: 3f8b2c9d7e4a1f6b0c5d8e2a9b4f7c1d3e6a0b5c8f2d7e4a1b6c9d0e3f8b2c
+      secret-key: ${JWT_SECRET:3f8b2c9d7e4a1f6b0c5d8e2a9b4f7c1d3e6a0b5c8f2d7e4a1k6c9d0e3f8b2c}
       expiration: 86400000
