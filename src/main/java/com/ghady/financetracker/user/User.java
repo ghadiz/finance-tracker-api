@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")   // ← add this
-
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
